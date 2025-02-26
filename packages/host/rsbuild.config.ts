@@ -3,7 +3,8 @@ import { pluginVue } from "@rsbuild/plugin-vue";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import path from "node:path";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
-import {loadNxEnv} from "../../tools/dist/index.js";
+// import {loadNxEnv} from "@monorepo/tools";
+import loadNxEnv from '../../tools/env/loaders/nx-env-loader'
 
 const env = loadNxEnv(__dirname);
 if (!env.success) {
@@ -48,7 +49,7 @@ export default defineConfig({
     }
   },
   plugins: [
-    pluginVue({ splitChunks: { vue: false, router: false } }),
+    pluginVue(),
     pluginSass()
   ],
   tools: {
