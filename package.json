@@ -2,7 +2,12 @@
   "name": "@rspack-module-federation-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:dev": "NODE_ENV=development nx serve host",
+    "start:test": "NODE_ENV=test nx serve host",
+    "build:prod": "NODE_ENV=production nx build host",
+    "test:e2e": "NODE_ENV=test nx e2e host"
+  },
   "private": true,
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -25,6 +30,7 @@
     "@vue/eslint-config-prettier": "7.1.0",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.4.1",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.16.1",
@@ -44,9 +50,13 @@
   ],
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.9",
+    "dotenv-webpack": "^8.1.0",
     "postcss": "^8.5.3",
+    "rspack": "link:@module-federation/enhanced/rspack",
     "tailwindcss": "^4.0.9",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "webpack-merge": "^6.0.1",
+    "zod": "^3.24.2"
   }
 }

@@ -68,7 +68,7 @@
     "build": {
       "executor": "@nx/rsbuild:build",
       "options": {
-        "postcssConfig": "postcss.config.ts",
+        "postcssConfig": "postcss.config.ts"
       }
     }
   },
