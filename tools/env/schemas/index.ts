@@ -20,5 +20,9 @@ export const GlobalEnvSchema = z.object({
 // 项目特定扩展
 export const HostEnvSchema = GlobalEnvSchema.extend({
   HOST_PORT: z.coerce.number().min(3000).max(9999),
-  // ANALYZE_BUNDLE: z.coerce.boolean().default(false)
+  API_APP_BASE_URL: z.string().url(),
+  VUE_APP_ASSETSPREFIX: z.string().optional(),
+  VUE_APP_PUBLICPATH: z.string().default('/'),
+  VUE_APP_REMOTEECHARTS: z.string().url(),
+  VUE_APP_REMOTEECHARTS_USER: z.string().url()
 });

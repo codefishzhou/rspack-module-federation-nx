@@ -1,4 +1,4 @@
-import { HostEnvSchema } from '../schemas/index';
+import { HostEnvSchema } from '../schemas';
 import { expand } from 'dotenv-expand';
 import { config } from 'dotenv';
 import path from 'path';
@@ -6,6 +6,7 @@ import path from 'path';
 export function loadNxEnv(projectRoot: string) {
   // 加载顺序：全局 → 项目 → 环境 → 本地
   const envFiles = [
+    path.join(process.cwd(), '.env'),
     path.join(__dirname, '../../../.env'),
     path.join(projectRoot, '.env'),
     path.join(projectRoot, `.env.${process.env.NODE_ENV}`),
