@@ -1,0 +1,14 @@
+{
+  "name": "tools",
+  "sourceRoot": "tools",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "main": "index.ts",
+        "tsConfig": "tools/tsconfig.json"
+      }
+    }
+  }
+} 
