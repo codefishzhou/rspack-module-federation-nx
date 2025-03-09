@@ -1,0 +1,19 @@
+{
+  "name": "host",
+  "sourceRoot": "packages/host/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@rsbuild/core:build",
+      "options": {
+        "rsbuildConfig": "packages/host/rsbuild.config.ts"
+      }
+    },
+    "serve": {
+      "executor": "@rsbuild/core:dev",
+      "options": {
+        "rsbuildConfig": "packages/host/rsbuild.config.ts"
+      }
+    }
+  }
+} 

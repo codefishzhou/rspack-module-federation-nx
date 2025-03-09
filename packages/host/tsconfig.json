@@ -7,7 +7,7 @@
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "@monorepo/tools": ["../../tools/index.ts"]
+      "@monorepo/tools": ["../../tools/src/index.ts"]
     }
   },
   "files": [],
