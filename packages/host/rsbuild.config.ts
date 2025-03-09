@@ -1,34 +1,43 @@
-import { pluginSass } from '@rsbuild/plugin-sass';
-import { pluginVue } from '@rsbuild/plugin-vue';
-import { defineConfig } from '@rsbuild/core';
-import { merge } from 'webpack-merge';
-// import { mergeConfig } from '@rsbuild/core';
-import { loadNxEnv } from '../../tools/src';
-import path from 'path';
+import { defineConfig } from "@rsbuild/core";
+import { pluginVue } from "@rsbuild/plugin-vue";
+import { pluginSass } from "@rsbuild/plugin-sass";
+import path from "node:path";
+import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
+// import {loadNxEnv} from "@monorepo/tools";
+import loadNxEnv from '../../tools/env/loaders/nx-env-loader'
 
 const env = loadNxEnv(__dirname);
-console.log('环境变量解析结果:', {
-  success: env.success,
-  data: env.success ? env.data : 'N/A',
-  error: env.success ? 'N/A' : env.error.format()
-});
+if (!env.success) {
+  throw new Error(`环境变量验证失败: ${JSON.stringify(env.error.format())}`);
+}
 
-const baseConfig = require('../../rsbuild.config.ts');
-
-const port = Number(3000);
+const port = Number(env.data.HOST_PORT);
 const validPort = Number.isInteger(port) && port > 0 ? port : 3000;
 
-export default defineConfig(merge(baseConfig, {
+export default defineConfig({
   html: {
-    template: './index.html',
-  },
-  plugins: [pluginVue(), pluginSass()],
-
-  source: {
-    entry: {
-      index: './src/main.ts',
+    title: "主应用",
+    favicon: "./public/favicon.svg",
+    meta: {
+      charset: { charset: "utf-8" },
+      viewport: "width=device-width, initial-scale=1.0",
     },
-    tsconfigPath: './tsconfig.app.json',
+  },
+  server: {
+    port: validPort,
+    proxy: {
+      '/worknotes': {
+        target: env.data.API_BASE_URL,
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
+  source: {
+    entry: { index: "./src/main.js" },
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    },
     define: {
       'process.env': JSON.stringify({
         ...env.data,
@@ -39,26 +48,22 @@ export default defineConfig(merge(baseConfig, {
       })
     }
   },
-  server: {
-    port: validPort,
-    logger: {
-      level: 'verbose'
-    }
-  },
-  output: {
-    target: 'web',
-    distPath: {
-      root: 'dist',
-    },
-  },
+  plugins: [
+    pluginVue(),
+    pluginSass()
+  ],
   tools: {
-    postcss: (config) => {
-      // 强制使用根目录配置
-      config.plugins = require('../../postcss.config.ts').plugins;
-    },
-    // 新增类型检查配置
-    tsLoader: {
-      transpileOnly: false // 强制类型检查
+    rspack(config, { appendPlugins }) {
+      appendPlugins([
+        new ModuleFederationPlugin({
+          name: "ASSET_HOST",
+          filename: "ASSET_HOST__remoteEntry.js",
+          // remotes: {
+          //   "@remote": `ASSET_REMOTE@${env.data.VUE_APP_REMOTEECHARTS}/remoteEntry.js`,
+          //   "@user": `USER_REMOTE@${env.data.VUE_APP_REMOTEECHARTS_USER}/remoteEntry.js`
+          // },
+        })
+      ]);
     }
   }
-}));
+});

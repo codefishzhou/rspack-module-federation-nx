@@ -15,9 +15,6 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2022",
-    "paths": {
-      "@monorepo/tools": ["tools/index.ts"],
-    },
+    "target": "es2022"
   }
 }
