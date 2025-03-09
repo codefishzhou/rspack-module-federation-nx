@@ -4,7 +4,7 @@ import { pluginSass } from "@rsbuild/plugin-sass";
 import path from "node:path";
 import { ModuleFederationPlugin } from "@module-federation/enhanced/rspack";
 // import {loadNxEnv} from "@monorepo/tools";
-import loadNxEnv from '../../tools/env/loaders/nx-env-loader'
+import {loadNxEnv} from '../tools'
 
 const env = loadNxEnv(__dirname);
 if (!env.success) {
