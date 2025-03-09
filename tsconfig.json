@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./packages/host"
+    },
+    {
+      "path": "./tools"
     }
   ]
 }

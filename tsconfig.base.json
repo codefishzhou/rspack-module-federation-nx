@@ -17,7 +17,7 @@
     "strict": true,
     "target": "es2022",
     "paths": {
-      "@monorepo/tools": ["tools/index.ts"]
-    }
+      "@monorepo/tools": ["tools/index.ts"],
+    },
   }
 }

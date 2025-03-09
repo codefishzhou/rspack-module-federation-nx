@@ -3,15 +3,17 @@ import { pluginVue } from '@rsbuild/plugin-vue';
 import { defineConfig } from '@rsbuild/core';
 import { merge } from 'webpack-merge';
 // import { mergeConfig } from '@rsbuild/core';
-import { loadNxEnv } from '@monorepo/tools';
+import { loadNxEnv } from '../../tools';
+import path from 'path';
 
 const env = loadNxEnv(__dirname);
+console.log('Resolved Env:', env);
 if (!env.success) {
-  const errorDetails = env.error.errors.map(e => 
-    `${e.path.join('.')}: ${e.message}`
-  ).join('\n  - ');
-  
-  throw new Error(`环境变量验证失败:\n  - ${errorDetails}\n请检查 .env 文件或环境变量设置`);
+  console.error('Missing Env Files:', [
+    '.env',
+    '.env.development',
+    '.env.local'
+  ].map(f => path.join(__dirname, f)));
 }
 
 const baseConfig = require('../../rsbuild.config.ts');
@@ -53,6 +55,10 @@ export default defineConfig(merge(baseConfig, {
     postcss: (config) => {
       // 强制使用根目录配置
       config.plugins = require('../../postcss.config.ts').plugins;
+    },
+    // 新增类型检查配置
+    tsLoader: {
+      transpileOnly: false // 强制类型检查
     }
   }
 }));

@@ -6,8 +6,10 @@
     "build": {
       "executor": "@nx/js:tsc",
       "options": {
-        "main": "index.ts",
-        "tsConfig": "tools/tsconfig.json"
+        "main": "src/index.ts",
+        "tsConfig": "tools/tsconfig.lib.json",
+        "outputPath": "dist/tools",
+        "generatePackageJson": true
       }
     }
   }
